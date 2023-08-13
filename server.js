@@ -1,10 +1,13 @@
 const express = require('express')
 const app = express()
-const axios = require('axios');
+const cors = require('cors')
+const craigslist = require('./routes/craigslist');
 require('dotenv').config()
 
-const { EBAY_TOKEN } = process.env
+app.use(cors())
 
 app.listen(8080, () => {
-    console.log('listening on 8080' );
+    console.log('listening on, ', 8080 );
   });
+
+  app.use('/craigslist', craigslist);
