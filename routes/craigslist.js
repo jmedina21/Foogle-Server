@@ -16,29 +16,30 @@ router.get('/', async (req, res) => {
         });
     };
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 40; i++) {
         await scrollDown();
-        await page.waitForTimeout(10);
+        await page.waitForTimeout(30);
     }
-
     const items = await page.evaluate(() => {
         const results = [];
-        const listings = Array.from(document.querySelectorAll('#search-results-page-1 > ol > li')).slice(1, 11);
-
+        const listings = Array.from(document.querySelectorAll('li.cl-search-result'));
+    
         listings.forEach((listing) => {
-            const titleElement = listing.querySelector('.cl-app-anchor.text-only .label');
-            const priceElement = listing.querySelector('.priceinfo');
-            const imageElement = listing.querySelector('img');
-            const linkElement = listing.querySelector('.cl-app-anchor.text-only');
-
-            const title = titleElement ? titleElement.innerText.trim() : null;
-            const price = priceElement ? priceElement.innerText.trim() : null;
-            const imageUrl = imageElement ? imageElement.src : null;
-            const link = linkElement ? linkElement.href : null;
-
-            results.push({ title, price, imageUrl, link });
+          const titleElement = listing.querySelector('.cl-app-anchor.text-only .label');
+          const priceElement = listing.querySelector('.priceinfo'); 
+          const imageElement = listing.querySelector('.gallery-inner img');
+          const linkElement = listing.querySelector('.cl-app-anchor.text-only');
+          const locationElement = listing.querySelector('.meta');
+    
+          const title = titleElement ? titleElement.innerText.trim() : null;
+          const price = priceElement ? priceElement.innerText.trim() : null;
+          const imageUrl = imageElement ? imageElement.src : null;
+          const link = linkElement ? linkElement.href : null;
+          const location = locationElement ? locationElement.innerText.split('·')[1].trim() : null;
+    
+          results.push({ title, price, imageUrl, link, location });
         });
-
+    
         return results;
     });
 
