@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
         return results;
       });
       
-    await fs.writeFile('fb.json', JSON.stringify(items, null, 2));
+    // await fs.writeFile('fb.json', JSON.stringify(items, null, 2));
 
     console.log('Items extracted and saved to fb.json');
     await browser.close();

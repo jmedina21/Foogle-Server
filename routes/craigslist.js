@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
         return results;
     });
 
-    await fs.writeFile('craig.json', JSON.stringify(items, null, 2));
+    // await fs.writeFile('craig.json', JSON.stringify(items, null, 2));
 
     await browser.close();
     res.send(items)
