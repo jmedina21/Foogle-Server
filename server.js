@@ -6,6 +6,7 @@ const ebay = require('./routes/ebay');
 const facebook = require('./routes/facebook');
 const signup = require('./routes/signup');
 const login = require('./routes/login');
+const products = require('./routes/products');
 
 require("dotenv").config();
 
@@ -18,6 +19,8 @@ app.use('/ebay', ebay);
 app.use('/facebook', facebook);
 app.use('/signup', signup);
 app.use('/login', login);
+app.use('/products', products);
+
 
 
 app.listen(process.env.PORT, () => {
