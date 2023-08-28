@@ -2,7 +2,10 @@
 
 Welcome to the server side of **Foogle**! This Node.js application serves as the backend for **foogle.foo**, handling various functionalities such as web scraping, user authentication, and interaction with the database.
 
-## FrontEnd - https://github.com/jmedina21/Foogle-Client.git
+## FrontEnd 
+```bash
+https://github.com/jmedina21/Foogle-Client.git
+```
 
 ## Table of Contents
 - [Features](#features)
