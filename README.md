@@ -47,12 +47,12 @@ npm install
 
 3. Set up your database configurations in a `.env` file:
 
-- PORT = 2121
-- DB_NAME = foogle
-- DB_HOST = 127.0.0.1
-- DB_USER = root
-- DB_PASSWORD = rootroot
-- JWT_SECRET = empingames
+- PORT = ???
+- DB_NAME = ???
+- DB_HOST = ???
+- DB_USER = ???
+- DB_PASSWORD = ???
+- JWT_SECRET = ???
 
 
 4. Run the server:
