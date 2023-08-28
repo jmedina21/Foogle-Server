@@ -2,6 +2,8 @@
 
 Welcome to the server side of **Foogle**! This Node.js application serves as the backend for **foogle.foo**, handling various functionalities such as web scraping, user authentication, and interaction with the database.
 
+## FrontEnd - https://github.com/jmedina21/Foogle-Client.git
+
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
@@ -34,14 +36,14 @@ Welcome to the server side of **Foogle**! This Node.js application serves as the
 ## Getting Started
 
 1. Clone the repository:
-
-- git clone https://github.com/jmedina21/capstone-server.git
-
+```bash
+git clone https://github.com/jmedina21/Foogle-Server.git
+```
 
 2. Install dependencies:
-
-- npm install
-
+```bash
+npm install
+```
 
 3. Set up your database configurations in a `.env` file:
 
@@ -54,9 +56,9 @@ Welcome to the server side of **Foogle**! This Node.js application serves as the
 
 
 4. Run the server:
-
-- node server
-
+```bash
+node server
+```
 
 ## Endpoints
 
