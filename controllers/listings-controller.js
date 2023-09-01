@@ -1,5 +1,4 @@
 const puppeteer = require('puppeteer')
-const fs = require('fs/promises')
 
 const getCraigslist = (async (req, res) => {
 
@@ -41,10 +40,8 @@ const getCraigslist = (async (req, res) => {
         return results;
     });
 
-    // await fs.writeFile('craig.json', JSON.stringify(items, null, 2));
-
     await browser.close();
-    res.send(items)
+    res.status(200).json(items)
 })
 
 const getEbay = (async (req, res) => {
@@ -69,7 +66,10 @@ const getEbay = (async (req, res) => {
       const results = [];
       const listings = Array.from(document.querySelectorAll('div.s-item__wrapper.clearfix'));
   
-      listings.forEach((listing) => {
+      listings.forEach((listing, index) => {
+        if (index === 0) {
+          return;
+        }
           const titleElement = listing.querySelector('div.s-item__info.clearfix > a > div > span');
           const priceElement = listing.querySelector('span.s-item__price');
           const imageElement = listing.querySelector('img');
@@ -86,15 +86,12 @@ const getEbay = (async (req, res) => {
       return results;
     });
   
-    // await fs.writeFile('ebay.json', JSON.stringify(items, null, 2));
-  
     await browser.close();
-    res.send(items)
+    res.status(200).json(items)
   })
   
   const getFacebook = (async (req, res) => {
     const {search} = req.query
-    console.time('Time to get info');
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
@@ -127,17 +124,16 @@ const getEbay = (async (req, res) => {
           const link = linkElement ? linkElement.href : null;
           const location = locationElement ? locationElement.innerText.trim() : null;
       
-          results.push({ title, price, imageUrl, link, location });
+          if(title !== null){
+            results.push({ title, price, imageUrl, link, location });
+          }
         });
       
         return results;
       });
       
-    // await fs.writeFile('fb.json', JSON.stringify(items, null, 2));
-
-    console.log('Items extracted and saved to fb.json');
     await browser.close();
-    res.json(items)
+    res.status(200).json(items)
 })
 
 module.exports = {
