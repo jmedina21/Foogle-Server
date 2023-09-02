@@ -1,17 +1,17 @@
 const knex = require("knex")(require("../knexfile"));
 
 const getProducts = (req, res) => {
-        knex('products')
-            .select('*')
-            .where({user_id: req.user.id})
-            .then((products) => {
-                res.status(200).send(products);
-            }
-        )
-        .catch((err) => {
-            console.log(err);
-            res.status(500).send('Error getting products');
-        })
+    knex('products')
+        .select('*')
+        .where({user_id: req.user.id})
+        .then((products) => {
+            res.status(200).send(products);
+        }
+    )
+    .catch((err) => {
+        console.log(err);
+        res.status(500).send('Error getting products');
+    })
 }
 
 const postProduct = (req, res) => {
