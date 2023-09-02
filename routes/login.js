@@ -14,13 +14,24 @@ router.post('/', (req, res) => {
         .where( username ? {username: username.toLowerCase()} : {email: email.toLowerCase()})
         .then((users) => {
             if (!users.length) {
-                return res.status(401).send('User does not exist');
+                knex('users')
+                    .select('*')
+                    .where({email: email.toLowerCase()})
+                    .then((users) => {
+                        if (!users.length) {
+                            return res.status(401).send('User does not exist');
+                        }
+                        if (users[0].password !== password) {
+                            return res.status(401).send('Incorrect password');
+                        }
+                        const token = jwt.sign({username, email}, process.env.JWT_SECRET);
+                        res.status(200).send(token);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).send('Error logging in user');
+                    })
             }
-            if (users[0].password !== password) {
-                return res.status(401).send('Incorrect password');
-            }
-            const token = jwt.sign({username, email}, process.env.JWT_SECRET);
-            res.status(200).send(token);
         })
         .catch((err) => {
             console.log(err);
