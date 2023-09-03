@@ -9,4 +9,10 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     charset: "utf8",
   },
+  migrations: {
+    directory: './db/migrations',
+  },
+  seeds: {
+    directory: './db/seeds',
+  },
 };
