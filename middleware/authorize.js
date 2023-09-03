@@ -16,7 +16,7 @@ const authorize = (req, res, next) => {
         }
         knex('users')
             .select('id')
-            .where({username: decoded.username})
+            .where({email: decoded.email})
             .then((users) => {
                 if (!users.length) {
                     return res.status(401).send('User does not exist');
