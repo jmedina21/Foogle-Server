@@ -9,4 +9,7 @@ router.route('/')
     .get(products.getProducts)
     .post(products.postProduct)
 
+ router.route('/:id')   
+    .delete(products.deleteProduct)
+
 module.exports = router;

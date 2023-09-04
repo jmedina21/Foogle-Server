@@ -24,8 +24,8 @@ const postProduct = (req, res) => {
     }
     knex('products')
         .insert({title, image, link, location, price, user_id: req.user.id})
-        .then(() => {
-            res.status(201).send('Product added');
+        .then((product) => {
+            res.status(201).send(product);
         })
         .catch((err) => {
             console.log(err);
@@ -33,12 +33,22 @@ const postProduct = (req, res) => {
         })
 }
 
-    
-
-
-
+const deleteProduct = (req, res) => {
+    const {id} = req.params;
+    knex('products')
+        .where({id})
+        .del()
+        .then(() => {
+            res.status(200).send('Product deleted');
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send('Error deleting product');
+        })
+}
 
 module.exports = {
     getProducts,
-    postProduct
+    postProduct,
+    deleteProduct
 }
