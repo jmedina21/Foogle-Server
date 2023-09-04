@@ -5,9 +5,6 @@ const getProducts = (req, res) => {
         .select('*')
         .where({user_id: req.user.id})
         .then((products) => {
-            if(!products.length){
-                return res.status(404).send('No products found');
-            }
             res.status(200).send(products);
         }
     )
