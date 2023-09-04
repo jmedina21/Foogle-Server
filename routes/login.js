@@ -19,11 +19,15 @@ router.post('/', (req, res) => {
             if (users[0].password !== password) {
                 return res.status(401).send('Incorrect password');
             }
-            const token = jwt.sign({email}, process.env.JWT_SECRET);
-            res.status(200).send(token);
+            const token = jwt.sign(
+                { id: users[0].id, email: users[0].email },
+                process.env.JWT_SECRET,
+                { expiresIn: "24h" }
+                );
+        
+            res.status(200).json({ token })
         })
         .catch((err) => {
-            console.log(err);
             res.status(500).send('Error logging in user');
         })
 });
