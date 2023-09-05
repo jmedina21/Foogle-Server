@@ -9,16 +9,19 @@ exports.seed = async function (knex) {
       id: 1,
       email: 'patmc@gmail.com',
       password: 'pat123',
+      verified: true,
     },
     {
       id: 2,
       email: 'jyoung@yahoo.com',
       password: 'foreveryoung',
+      verified: true,
     },
     {
       id: 3,
       email: 'pmedina@gmail.com',
       password: 'jpmm21',
+      verified: true,
     }
   ]);
 };
