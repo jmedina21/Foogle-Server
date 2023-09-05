@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken');
 const knex = require("knex")(require("../knexfile"));
+const bcrypt = require('bcrypt');
 require("dotenv").config();
 
 router.post('/', (req, res) => {
@@ -25,8 +26,9 @@ router.post('/', (req, res) => {
             if (users.length) {
                 res.status(409).send('Account already exists');
             } else {
+                const hashedPassword =  bcrypt.hashSync(password, 10);
                 knex('users')
-                    .insert({email, password})
+                    .insert({email, password: hashedPassword})
                     .then(() => {
                         const token = jwt.sign({email}, process.env.JWT_SECRET);
                         res.status(201).send(token);

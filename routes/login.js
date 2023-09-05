@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken');
 const knex = require("knex")(require("../knexfile"));
+const bcrypt = require('bcrypt');
 require("dotenv").config();
 
 router.post('/', (req, res) => {
@@ -16,7 +17,8 @@ router.post('/', (req, res) => {
             if (!users.length) {
                 return res.status(401).send('User does not exist')
             }
-            if (users[0].password !== password) {
+            const isValidPassword = bcrypt.compare(password, users[0].password);
+            if (!isValidPassword) {
                 return res.status(401).send('Incorrect password');
             }
             const token = jwt.sign(
