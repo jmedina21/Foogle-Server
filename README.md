@@ -32,6 +32,8 @@ Welcome to the server side of **Foogle**! This Node.js application serves as the
 - Knex.js
 - MySQL
 - JWT
+- nodeMailer
+- bcrypt
 
 ## Getting Started
 
@@ -53,9 +55,13 @@ npm install
 - DB_USER = ???
 - DB_PASSWORD = ???
 - JWT_SECRET = ???
+- EMAIL = ???
+- EMAIL_PASSWORD = ???
 
+4. To create a accounts you need to configure the transporter body from nodeMailer, line 9 in signup.js
+Documentation in - https://github.com/nodemailer/nodemailer
 
-4. Run the server:
+5. Run the server:
 ```bash
 node server
 ```
@@ -69,12 +75,32 @@ node server
 - **POST /login:** Authenticate a user.
 - **GET /products:** Retrieve saved products for a user.
 - **POST /products:** Save a new product for a user.
+- **DELETE /products:** Delete a saved product.
+- **GET /validate:** Account verification
+
 
 ## Database
 
 The application uses MySQL as the database to store user information, saved products, and other relevant data. Knex.js is used as a query builder to interact with the database.
 
 Database migrations and seed files can be found in the `db` directory.
+
+1. Install MySQL in your computer if you don't have it already
+
+2. Create Database
+```bash
+CREATE DATABASE <name>;
+```
+
+3. Run migrations command
+```bash
+npx knex migrate:latest
+```
+
+4. Run seeding command
+```bash
+npx knex seed:run
+```
 
 ## Contributing
 
