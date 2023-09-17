@@ -4,6 +4,7 @@ const getCraigslist = (async (req, res) => {
 
     const {search} = req.query
     const browser = await puppeteer.launch({
+      headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage();
@@ -50,6 +51,7 @@ const getEbay = (async (req, res) => {
 
     const {search} = req.query
     const browser = await puppeteer.launch({
+      headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     const page = await browser.newPage();
@@ -96,9 +98,12 @@ const getEbay = (async (req, res) => {
   
   const getFacebook = (async (req, res) => {
     const {search} = req.query
+    console.log(search)
     const browser = await puppeteer.launch({
+      headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+    console.log('browser launched')
     const page = await browser.newPage();
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
@@ -137,6 +142,7 @@ const getEbay = (async (req, res) => {
       
         return results;
       });
+        console.log(items.length)
       
     await browser.close();
     res.status(200).json(items)
