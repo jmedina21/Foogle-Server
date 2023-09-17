@@ -21,6 +21,8 @@
     "knex": "^2.5.1",
     "mysql": "^2.18.1",
     "node-mailer": "^0.1.1",
-    "puppeteer": "^21.0.3"
+    "puppeteer": "^21.0.3",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
 }
