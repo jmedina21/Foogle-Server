@@ -3,7 +3,9 @@ const puppeteer = require('puppeteer')
 const getCraigslist = (async (req, res) => {
 
     const {search} = req.query
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(`https://newyork.craigslist.org/search/sss?query=${search}`);
 
@@ -47,7 +49,9 @@ const getCraigslist = (async (req, res) => {
 const getEbay = (async (req, res) => {
 
     const {search} = req.query
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(`https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=${search}&_sacat=0`);
   
@@ -92,7 +96,9 @@ const getEbay = (async (req, res) => {
   
   const getFacebook = (async (req, res) => {
     const {search} = req.query
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
     const page = await browser.newPage();
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
