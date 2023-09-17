@@ -18,7 +18,7 @@ const getCraigslist = (async (req, res) => {
 
     for (let i = 0; i < 40; i++) {
         await scrollDown();
-        await page.waitForTimeout(30);
+        new Promise((resolve) => setTimeout(resolve, 10));
     }
     const items = await page.evaluate(() => {
         const results = [];
@@ -65,7 +65,7 @@ const getEbay = (async (req, res) => {
   
     for (let i = 0; i < 10; i++) {
       await scrollDown();
-      await page.waitForTimeout(10);
+      new Promise((resolve) => setTimeout(resolve, 10));
     }
   
     const items = await page.evaluate(() => {
@@ -99,12 +99,15 @@ const getEbay = (async (req, res) => {
   const getFacebook = (async (req, res) => {
     const {search} = req.query
     console.log(search)
+    const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36';
+
     const browser = await puppeteer.launch({
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
     console.log('browser launched')
     const page = await browser.newPage();
+    await page.setUserAgent(userAgent);
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
     const scrollDown = async () => {
@@ -115,7 +118,7 @@ const getEbay = (async (req, res) => {
 
     for (let i = 0; i < 12; i++) {
         await scrollDown();
-        await page.waitForTimeout(10);
+        new Promise((resolve) => setTimeout(resolve, 10));
     }
 
     const items = await page.evaluate(() => {
