@@ -12,12 +12,18 @@ require("dotenv").config();
 app.use(cors())
 app.use(express.json())
 
+app.get('/', (req, res) => {
+    res.send('Hello Heroku!')
+})
+
 app.use('/listings', listings);
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/products', products);
 app.use('/validate', validate);
 
-app.listen(process.env.PORT, () => {
-    console.log('listening on, ', process.env.PORT );
+const port = process.env.PORT || 8080;
+
+app.listen(port, () => {
+    console.log('listening on, ', port );
 });
