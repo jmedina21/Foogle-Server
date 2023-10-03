@@ -1,11 +1,12 @@
-const puppeteer = require('puppeteer-extra')
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
-puppeteer.use(StealthPlugin())
+const puppeteer = require('puppeteer')
 
 const getCraigslist = (async (req, res) => {
 
     const {search} = req.query
     const browser = await puppeteer.launch({
+      executablePath: process.env.NODE_ENV === 'production'
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
@@ -56,6 +57,9 @@ const getEbay = (async (req, res) => {
 
     const {search} = req.query
     const browser = await puppeteer.launch({
+      executablePath: process.env.NODE_ENV === 'production'
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
@@ -104,6 +108,9 @@ const getEbay = (async (req, res) => {
   const getFacebook = (async (req, res) => {
     const {search} = req.query
     const browser = await puppeteer.launch({
+      executablePath: process.env.NODE_ENV === 'production'
+      ? process.env.PUPPETEER_EXECUTABLE_PATH
+      : puppeteer.executablePath(),
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });

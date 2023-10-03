@@ -13,9 +13,8 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send('Hello Heroku!')
+    res.send('Hello Render!')
 })
-
 app.use('/listings', listings);
 app.use('/signup', signup);
 app.use('/login', login);
