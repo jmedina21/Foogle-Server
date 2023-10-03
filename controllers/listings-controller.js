@@ -22,7 +22,7 @@ const getCraigslist = (async (req, res) => {
     for (let i = 0; i < 40; i++) {
         await scrollDown();
         // new Promise((resolve) => setTimeout(resolve, 30));
-        await page.waitForTimeout(30);
+        await page.waitForTimeout(50);
 
 
     }
@@ -125,7 +125,7 @@ const getEbay = (async (req, res) => {
 
     for (let i = 0; i < 12; i++) {
         await scrollDown();
-        new Promise((resolve) => setTimeout(resolve, 10));
+        new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     const items = await page.evaluate(() => {
