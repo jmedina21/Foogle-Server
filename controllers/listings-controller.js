@@ -125,7 +125,8 @@ const getEbay = (async (req, res) => {
 
     for (let i = 0; i < 12; i++) {
         await scrollDown();
-        new Promise((resolve) => setTimeout(resolve, 100));
+        // new Promise((resolve) => setTimeout(resolve, 100));
+        await page.waitForTimeout(250);
     }
 
     const items = await page.evaluate(() => {
