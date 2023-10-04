@@ -7,6 +7,7 @@ module.exports = {
     database: process.env.MYSQLDATABASE,
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD,
+    port: process.env.MYSQLPORT,
     charset: "utf8",
   },
   migrations: {
