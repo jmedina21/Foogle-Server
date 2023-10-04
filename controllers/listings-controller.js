@@ -158,21 +158,24 @@ const getEbay = (async (req, res) => {
 })
 
 const shfb = (async (req, res) => {
-  //go into facebook and screenshot the page
+  const {search} = req.query;
+
   const browser = await puppeteer.launch({
     executablePath: process.env.NODE_ENV === 'production'
     ? process.env.PUPPETEER_EXECUTABLE_PATH
     : puppeteer.executablePath(),
-    headless: 'new',
+    headless: 'new', 
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
+  
   const page = await browser.newPage();
-  await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
-  await page.screenshot({path: 'shfb.png'});
+  await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`, { waitUntil: 'networkidle2' });
+  const screenshot = await page.screenshot();
   await browser.close();
-  // send static image of screenshot
-  res.sendFile('shfb.png', { root: __dirname });
-})
+
+  res.setHeader('Content-Type', 'image/png');
+    res.send(screenshot);
+});
 
 module.exports = {
     getCraigslist,
