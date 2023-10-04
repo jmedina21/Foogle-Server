@@ -51,13 +51,12 @@ router.post('/', (req, res) => {
                             });
 
                             const verificationLink = `${req.protocol}://${req.get('host')}/validate/${verificationToken}`;
-                            console.log(req.protocol)
 
                             const mailOptions = {
                                 from: process.env.EMAIL,
                                 to: email,
                                 subject: 'Foogle Email Verification',
-                                text: `Click on this link to verify your email: ${verificationLink}`,
+                                // text: `Click on this link to verify your email: ${verificationLink}`,
                                 html: `<h2>Welcome to Foogle, the best place to find the best deals on the internet!</h2> <br>
                                         <h3>Please verify your email by clicking on the link below:</h3> <br>
                                         <a href="${verificationLink}">Click here to verify your email</a>`

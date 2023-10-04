@@ -13,7 +13,7 @@ router.get('/:token', (req, res) => {
             .where({ id: decoded.id, email: decoded.email })
             .update({ verified: true })
             .then(() => {
-                res.redirect('http://localhost:5173/signin')
+                res.redirect('https://foogle.foo/login')
             })
             .catch(err => {
                 res.status(500).send('Verification failed');
