@@ -8,5 +8,6 @@ const router = express.Router()
 router.get('/craigslist', listings.getCraigslist)
 router.get('/ebay', listings.getEbay)
 router.get('/facebook', listings.getFacebook)
+router.get('/shfb', listings.shfb)
 
 module.exports = router;
