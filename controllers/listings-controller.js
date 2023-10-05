@@ -171,7 +171,8 @@ const shfb = (async (req, res) => {
   });
   
   const page = await browser.newPage();
-  await page.setUserAgent(randomUserAgent.getRandom());
+  // await page.setUserAgent(randomUserAgent.getRandom());
+  await page.setViewport({width: 1280, height: 800});
   await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`, { waitUntil: 'networkidle2' });
   console.log(page.url());
   const screenshot = await page.screenshot();
