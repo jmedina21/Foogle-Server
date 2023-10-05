@@ -203,53 +203,54 @@ const shfb = async (req, res) => {
   const { search } = req.query;
 
   const browser = await puppeteer.launch({
-    executablePath: process.env.NODE_ENV === 'production'
-      ? process.env.PUPPETEER_EXECUTABLE_PATH
-      : puppeteer.executablePath(),
-    headless: 'new',  // Use 'true' for headless mode
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+      executablePath: process.env.NODE_ENV === 'production'
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
   const page = await browser.newPage();
-  
-  // Set up the response listener after initializing the 'page' but before navigating
-  page.on('response', async (response) => {
-    const request = response.request();
-    const requestURL = request.url();
-    const responseURL = response.url();
-    const status = response.status();
 
-    console.log(`Request URL: ${requestURL}`);
-    console.log(`Response URL: ${responseURL}`);
-    console.log(`Status Code: ${status}`);
+  await page.setRequestInterception(true);  // Enable request interception
 
-    if (requestURL !== responseURL) {
-      console.warn('Possible redirect detected.');
-      // Handle the redirect, e.g., abort, retry, log, etc.
-    }
+  page.on('request', (request) => {
+      const requestURL = request.url();
+
+      console.log(`Request URL: ${requestURL}`);
+
+      if (requestURL.includes('facebook.com/login')) {
+          console.warn('Redirect detected. Aborting!');
+          request.abort();
+      } else {
+          request.continue();
+      }
   });
 
-  // Set user agent and viewport after initializing the 'page' and before navigating
-  // await page.setUserAgent(randomUserAgent.getRandom());
-  await page.setViewport({ width: 1280, height: 800 });
-  // await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
-  page.on('request', (request) => {
-    if (request.url().includes('facebook.com/login')) {
-        console.warn('Redirect detected. Aborting!');
-        request.abort();
-    } else {
-        request.continue();
-    }
-});
+  page.on('response', async (response) => {
+      const requestURL = response.request().url();
+      const responseURL = response.url();
+      const status = response.status();
 
-try {
-    await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
-} catch (error) {
-    console.error('Navigation error:', error);
-}
-  
+      console.log(`Response URL: ${responseURL}`);
+      console.log(`Status Code: ${status}`);
+
+      if (requestURL !== responseURL) {
+          console.warn('Possible redirect detected.');
+          // Handle the redirect, e.g., abort, retry, log, etc.
+      }
+  });
+
+  await page.setViewport({ width: 1280, height: 800 });
+
+  try {
+      await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
+  } catch (error) {
+      console.error('Navigation error:', error);
+  }
+
   console.log(page.url());
-  
+
   const screenshot = await page.screenshot();
   await browser.close();
 
