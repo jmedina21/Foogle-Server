@@ -244,6 +244,7 @@ const shfb = async (req, res) => {
 
 
 const loginToFacebook = async (req,res) =>{
+  const { search } = req.query;
 
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
