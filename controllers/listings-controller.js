@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer')
+const randomUserAgent = require('random-useragent');
+
 
 const getCraigslist = (async (req, res) => {
 
@@ -169,6 +171,7 @@ const shfb = (async (req, res) => {
   });
   
   const page = await browser.newPage();
+  await page.setUserAgent(randomUserAgent.getRandom());
   await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`, { waitUntil: 'networkidle2' });
   console.log(page.url());
   const screenshot = await page.screenshot();
