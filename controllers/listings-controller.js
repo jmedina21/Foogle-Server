@@ -171,22 +171,6 @@ const getEbay = (async (req, res) => {
 //     args: ['--no-sandbox', '--disable-setuid-sandbox']
 //   });
   
-//   const page = await browser.newPage();
-//   page.on('response', async (response) => {
-//     const request = response.request();
-//     const requestURL = request.url();
-//     const responseURL = response.url();
-//     const status = response.status();
-    
-//     console.log(`Request URL: ${requestURL}`);
-//     console.log(`Response URL: ${responseURL}`);
-//     console.log(`Status Code: ${status}`);
-
-//     if (requestURL !== responseURL) {
-//         console.warn('Possible redirect detected.');
-//         // Handle the redirect, e.g., abort, retry, log, etc.
-//     }
-// });
 //   await page.setViewport({width: 1280, height: 800});
 //   await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`
 //   //  ,{ waitUntil: 'networkidle2' }
@@ -259,9 +243,36 @@ const shfb = async (req, res) => {
 };
 
 
+const loginToFacebook = async (req,res) =>{
+
+  const browser = await puppeteer.launch({ headless: 'new' });
+  const page = await browser.newPage();
+
+  await page.setViewport({width: 1280, height: 800});
+  await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
+
+  if(page.url().includes('facebook.com/login')){
+    await page.type('#email', process.env.fbEmail);
+    await page.type('#pass', process.env.fbPassword);
+  }
+
+  await page.click('#loginbutton'); 
+
+  await page.waitForNavigation();
+  console.log(page.url());
+  const screenshot = await page.screenshot();
+  await browser.close();
+
+  res.setHeader('Content-Type', 'image/png');
+  res.send(screenshot);
+
+  await browser.close();
+}
+
 module.exports = {
     getCraigslist,
     getEbay,
     getFacebook,
-    shfb
+    shfb,
+    loginToFacebook
 };
