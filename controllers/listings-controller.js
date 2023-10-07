@@ -286,7 +286,7 @@ const goToSannySoft = async (req,res) =>{
   const page = await browser.newPage();
 
   await page.setViewport({width: 1280, height: 800});
-  await page.goto(`https://https://bot.sannysoft.com/`);
+  await page.goto(`https://bot.sannysoft.com/`);
 
   console.log(page.url());
   const screenshot = await page.screenshot();
