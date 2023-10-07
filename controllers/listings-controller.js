@@ -12,7 +12,7 @@ const getCraigslist = (async (req, res) => {
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
-    const page = await browser.newPage();
+    const page = (await browser.pages())[0];
     await page.goto(`https://newyork.craigslist.org/search/sss?query=${search}`);
 
     const scrollDown = async () => {
@@ -65,7 +65,7 @@ const getEbay = (async (req, res) => {
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
-    const page = await browser.newPage();
+    const page = (await browser.pages())[0];
     await page.goto(`https://www.ebay.com/sch/i.html?_from=R40&_trksid=p4432023.m570.l1313&_nkw=${search}&_sacat=0`);
   
     const scrollDown = async () => {
@@ -118,7 +118,7 @@ const getEbay = (async (req, res) => {
     });
 
     const page = (await browser.pages())[0];
-    await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
+    await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
 
     if(page.url().includes('facebook.com/login')){
       await page.type('#email', process.env.fbEmail);
@@ -139,7 +139,6 @@ const getEbay = (async (req, res) => {
     for (let i = 0; i < 12; i++) {
         await scrollDown();
         new Promise((resolve) => setTimeout(resolve, 30));
-        // await page.waitForTimeout(250);
     }
 
     const items = await page.evaluate(() => {
@@ -170,143 +169,8 @@ const getEbay = (async (req, res) => {
     res.status(200).json(items)
 })
 
-// const shfb = (async (req, res) => {
-//   const {search} = req.query;
-
-  
-//   const browser = await puppeteer.launch({
-//     executablePath: process.env.NODE_ENV === 'production'
-//     ? process.env.PUPPETEER_EXECUTABLE_PATH
-//     : puppeteer.executablePath(),
-//     headless: 'new', 
-//     args: ['--no-sandbox', '--disable-setuid-sandbox']
-//   });
-  
-//   await page.setViewport({width: 1280, height: 800});
-//   await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`
-//   //  ,{ waitUntil: 'networkidle2' }
-//   );
-//   console.log(page.url());
-//   const screenshot = await page.screenshot();
-//   await browser.close();
-
-//   res.setHeader('Content-Type', 'image/png');
-//     res.send(screenshot);
-// });
-
-const shfb = async (req, res) => {
-  const { search } = req.query;
-
-  const browser = await puppeteer.launch({
-      executablePath: process.env.NODE_ENV === 'production'
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
-  const page = await browser.newPage();
-
-  await page.setRequestInterception(true);  // Enable request interception
-
-  page.on('request', (request) => {
-      const requestURL = request.url();
-
-      console.log(`Request URL: ${requestURL}`);
-
-      if (requestURL.includes('facebook.com/login')) {
-          console.warn('Redirect detected. Aborting!');
-          request.abort();
-      } else {
-          request.continue();
-      }
-  });
-
-  page.on('response', async (response) => {
-      const requestURL = response.request().url();
-      const responseURL = response.url();
-      const status = response.status();
-
-      console.log(`Response URL: ${responseURL}`);
-      console.log(`Status Code: ${status}`);
-
-      if (requestURL !== responseURL) {
-          console.warn('Possible redirect detected.');
-          // Handle the redirect, e.g., abort, retry, log, etc.
-      }
-  });
-
-  await page.setViewport({ width: 1280, height: 800 });
-
-  try {
-      await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
-  } catch (error) {
-      console.error('Navigation error:', error);
-  }
-
-  console.log(page.url());
-
-  const screenshot = await page.screenshot();
-  await browser.close();
-
-  res.setHeader('Content-Type', 'image/png');
-  res.send(screenshot);
-};
-
-
-const loginToFacebook = async (req,res) =>{
-  const { search } = req.query;
-
-  const browser = await puppeteer.launch({ headless: 'new' });
-  const page = await browser.newPage();
-
-  await page.setViewport({width: 1280, height: 800});
-  await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
-
-  if(page.url().includes('facebook.com/login')){
-    await page.type('#email', process.env.fbEmail);
-    await page.type('#pass', process.env.fbPassword);
-  }
-
-  await page.click('#loginbutton'); 
-
-  await page.waitForNavigation();
-  console.log(page.url());
-  const screenshot = await page.screenshot();
-  await browser.close();
-
-  res.setHeader('Content-Type', 'image/png');
-  res.send(screenshot);
-
-  await browser.close();
-}
-
-const goToSannySoft = async (req,res) =>{
-  const browser = await puppeteer.launch({ headless: 'new' });
-  const page = await browser.newPage();
-
-  await page.setViewport({width: 1280, height: 800});
-  await page.goto(`https://bot.sannysoft.com/`);
-
-  console.log(page.url());
-  // const screenshot = await page.screenshot();
-  const pdf = await page.pdf({path: 'hn.pdf', format: 'A4'});
-  await browser.close();
-  //download pdf of the page  
-  res.setHeader('Content-Type', 'application/pdf');
-
-  // res.setHeader('Content-Type', 'image/png');
-
-  res.send(pdf);
-
-  await browser.close();
-}
-
 module.exports = {
     getCraigslist,
     getEbay,
-    getFacebook,
-    shfb,
-    loginToFacebook,
-    goToSannySoft
+    getFacebook
 };
