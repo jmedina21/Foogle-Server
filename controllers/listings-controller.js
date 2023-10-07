@@ -120,14 +120,14 @@ const getEbay = (async (req, res) => {
     const page = (await browser.pages())[0];
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
-    // if(page.url().includes('facebook.com/login')){
-    //   await page.type('#email', process.env.fbEmail);
-    //   await page.type('#pass', process.env.fbPassword);
-    // }
+    if(page.url().includes('facebook.com/login')){
+      await page.type('#email', process.env.fbEmail);
+      await page.type('#pass', process.env.fbPassword);
+    }
 
-    // await page.click('#loginbutton');   
+    await page.click('#loginbutton');   
 
-    // await page.waitForNavigation();
+    await page.waitForNavigation();
     console.log(page.url());
 
     const scrollDown = async () => {
@@ -138,8 +138,8 @@ const getEbay = (async (req, res) => {
 
     for (let i = 0; i < 12; i++) {
         await scrollDown();
-        // new Promise((resolve) => setTimeout(resolve, 100));
-        await page.waitForTimeout(250);
+        new Promise((resolve) => setTimeout(resolve, 30));
+        // await page.waitForTimeout(250);
     }
 
     const items = await page.evaluate(() => {
