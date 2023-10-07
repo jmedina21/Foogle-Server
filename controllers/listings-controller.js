@@ -117,17 +117,17 @@ const getEbay = (async (req, res) => {
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    const page = await browser.newPage();
+    const page = (await browser.pages())[0];
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
-    if(page.url().includes('facebook.com/login')){
-      await page.type('#email', process.env.fbEmail);
-      await page.type('#pass', process.env.fbPassword);
-    }
+    // if(page.url().includes('facebook.com/login')){
+    //   await page.type('#email', process.env.fbEmail);
+    //   await page.type('#pass', process.env.fbPassword);
+    // }
 
-    await page.click('#loginbutton');   
+    // await page.click('#loginbutton');   
 
-    await page.waitForNavigation();
+    // await page.waitForNavigation();
     console.log(page.url());
 
     const scrollDown = async () => {
@@ -289,11 +289,15 @@ const goToSannySoft = async (req,res) =>{
   await page.goto(`https://bot.sannysoft.com/`);
 
   console.log(page.url());
-  const screenshot = await page.screenshot();
+  // const screenshot = await page.screenshot();
+  const pdf = await page.pdf({path: 'hn.pdf', format: 'A4'});
   await browser.close();
+  //download pdf of the page  
+  res.setHeader('Content-Type', 'application/pdf');
 
-  res.setHeader('Content-Type', 'image/png');
-  res.send(screenshot);
+  // res.setHeader('Content-Type', 'image/png');
+
+  res.send(pdf);
 
   await browser.close();
 }
