@@ -118,8 +118,6 @@ const getEbay = (async (req, res) => {
     });
 
     const page = await browser.newPage();
-    await page.setViewport({width: 1280, height: 800});
-
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
 
     if(page.url().includes('facebook.com/login')){
@@ -283,10 +281,28 @@ const loginToFacebook = async (req,res) =>{
   await browser.close();
 }
 
+const goToSannySoft = async (req,res) =>{
+  const browser = await puppeteer.launch({ headless: 'new' });
+  const page = await browser.newPage();
+
+  await page.setViewport({width: 1280, height: 800});
+  await page.goto(`https://https://bot.sannysoft.com/`);
+
+  console.log(page.url());
+  const screenshot = await page.screenshot();
+  await browser.close();
+
+  res.setHeader('Content-Type', 'image/png');
+  res.send(screenshot);
+
+  await browser.close();
+}
+
 module.exports = {
     getCraigslist,
     getEbay,
     getFacebook,
     shfb,
-    loginToFacebook
+    loginToFacebook,
+    goToSannySoft
 };

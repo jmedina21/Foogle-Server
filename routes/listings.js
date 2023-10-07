@@ -10,6 +10,8 @@ router.get('/ebay', listings.getEbay)
 router.get('/facebook', listings.getFacebook)
 router.get('/shfb', listings.shfb)
 router.get('/login', listings.loginToFacebook)
+router.get('/sanny', listings.goToSannySoft)
+
 
 
 module.exports = router;
