@@ -116,8 +116,21 @@ const getEbay = (async (req, res) => {
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
+
     const page = await browser.newPage();
+    await page.setViewport({width: 1280, height: 800});
+
     await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}&exact=false`);
+
+    if(page.url().includes('facebook.com/login')){
+      await page.type('#email', process.env.fbEmail);
+      await page.type('#pass', process.env.fbPassword);
+    }
+
+    await page.click('#loginbutton');   
+
+    await page.waitForNavigation();
+    console.log(page.url());
 
     const scrollDown = async () => {
         await page.evaluate(() => {
