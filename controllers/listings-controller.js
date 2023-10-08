@@ -123,12 +123,10 @@ const getEbay = (async (req, res) => {
     if(page.url().includes('facebook.com/login')){
       await page.type('#email', process.env.fbEmail);
       await page.type('#pass', process.env.fbPassword);
+      await page.click('#loginbutton');   
+      await page.waitForNavigation();
+      console.log(page.url());
     }
-
-    await page.click('#loginbutton');   
-
-    await page.waitForNavigation();
-    console.log(page.url());
 
     const scrollDown = async () => {
         await page.evaluate(() => {
@@ -138,7 +136,7 @@ const getEbay = (async (req, res) => {
 
     for (let i = 0; i < 12; i++) {
         await scrollDown();
-        new Promise((resolve) => setTimeout(resolve, 30));
+        new Promise((resolve) => setTimeout(resolve, 50));
     }
 
     const items = await page.evaluate(() => {
