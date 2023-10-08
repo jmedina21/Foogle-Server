@@ -11,7 +11,6 @@ router.get('/facebook', listings.getFacebook)
 router.get('/shfb', listings.shfb)
 router.get('/login', listings.loginToFacebook)
 router.get('/sanny', listings.goToSannySoft)
-
-
+router.get('/html', listings.getHTML)
 
 module.exports = router;

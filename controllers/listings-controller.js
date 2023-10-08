@@ -302,11 +302,50 @@ const goToSannySoft = async (req,res) =>{
   await browser.close();
 }
 
+const getHTML = async (req, res) => {
+  const {search} = req.query
+  const browser = await puppeteer.launch({
+    executablePath: process.env.NODE_ENV === 'production'
+    ? process.env.PUPPETEER_EXECUTABLE_PATH
+    : puppeteer.executablePath(),
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = (await browser.pages())[0];
+  await page.goto(`https://www.facebook.com/marketplace/nyc/search/?query=${search}`);
+
+  if(page.url().includes('facebook.com/login')){
+    await page.type('#email', process.env.fbEmail);
+    await page.type('#pass', process.env.fbPassword);
+    await page.click('#loginbutton');   
+    await page.waitForNavigation();
+    console.log(page.url());
+  }
+
+  const scrollDown = async () => {
+      await page.evaluate(() => {
+          window.scrollBy(0, window.innerHeight);
+      });
+  };
+
+  for (let i = 0; i < 21; i++) {
+      await scrollDown();
+      new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  //download html
+  const html = await page.content();
+  await browser.close();
+  res.status(200).json(html)
+}
+
 module.exports = {
     getCraigslist,
     getEbay,
     getFacebook,
     shfb,
     loginToFacebook,
-    goToSannySoft
+    goToSannySoft,
+    getHTML
 };
