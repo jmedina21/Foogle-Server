@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const knex = require("knex")(require("../knexfile"));
 const bcrypt = require('bcrypt');
 const jwt_decode = require('jwt-decode');
 require("dotenv").config();
