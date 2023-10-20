@@ -36,7 +36,6 @@ router.post('/', async (req, res) => {
             return res.status(400).send('Account already exists')
         }else{
             const hashedPassword = await bcrypt.hash(password, 10)
-            console.log(hashedPassword)
             user = new User({
                 email: email.toLowerCase(),
                 password: hashedPassword,
@@ -45,7 +44,6 @@ router.post('/', async (req, res) => {
             const savedUser = await user.save()
 
             const userId = savedUser._id
-            console.log(userId)
             const verificationToken = jwt.sign({id: userId, email}, process.env.JWT_SECRET,
                 {
                 expiresIn: '1h'
@@ -73,7 +71,6 @@ router.post('/', async (req, res) => {
               
         }
     }catch(err){
-        console.log(err)
         res.status(500).send(err.message);
     }
 });
