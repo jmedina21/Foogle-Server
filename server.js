@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -6,14 +7,13 @@ const signup = require('./routes/signup');
 const login = require('./routes/login');
 const products = require('./routes/products');
 const validate = require('./routes/validate');
-
-require("dotenv").config();
+const connectDB = require("./db/database")();
 
 app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send('Hello Render!')
+    res.send('Hello Random Person!')
 })
 app.use('/listings', listings);
 app.use('/signup', signup);

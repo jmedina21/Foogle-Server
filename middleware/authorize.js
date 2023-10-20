@@ -1,8 +1,8 @@
 require("dotenv").config();
 const jwt = require('jsonwebtoken');
-const knex = require("knex")(require("../knexfile"));
+const User = require('../db/models').User;
 
-const authorize = (req, res, next) => {
+const authorize = async (req, res, next) => {
     if(!req.headers.authorization){
         return res.status(401).send('User not authorized');
     }
@@ -10,21 +10,20 @@ const authorize = (req, res, next) => {
     if (!token) {
         return res.status(401).send('User not authorized');
     }
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
         if (err) {
             return res.status(401).send('Invalid token');
         }
-        knex('users')
-            .select('id')
-            .where({id: decoded.id})
-            .then((users) => {
-                if (!users.length) {
-                    return res.status(401).send('User does not exist');
-                }
-                req.user = users[0];
-                next();
-            })
+        try{
+            const user = await User.findOne({email: decoded.email})
+            if(!user){
+                res.status(401).send('User does not exist');
+            }
+            req.user = user;
+            next();
+        }catch(err){
+            res.status(500).send('Error authorizing user', err);
+        }
     })
 }
-
 module.exports = authorize;
