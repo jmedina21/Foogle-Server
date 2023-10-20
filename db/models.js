@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 const productSchema = new mongoose.Schema({
-    userId: mongoose.Schema.Types.ObjectId,
+    user_id: mongoose.Schema.Types.ObjectId,
     title: String,
     link: String,
     price: String,
