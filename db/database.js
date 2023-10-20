@@ -6,6 +6,7 @@ const uri = process.env.MONGODB_URI
 const connectionParams = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    dbName: 'foogle'
 }
 
 const connectDB = async () => {
