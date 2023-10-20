@@ -7,7 +7,7 @@ const signup = require('./routes/signup');
 const login = require('./routes/login');
 const products = require('./routes/products');
 const validate = require('./routes/validate');
-const connectDB = require("./db/database")();
+require("./db/database")();
 
 app.use(cors())
 app.use(express.json())
