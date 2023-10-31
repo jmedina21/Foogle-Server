@@ -9,7 +9,7 @@ const products = require('./routes/products');
 const validate = require('./routes/validate');
 require("./db/database")();
 
-app.use(cors())
+app.use(cors({origin: 'http://foogle.foo'}))
 app.use(express.json())
 
 app.get('/', (req, res) => {
