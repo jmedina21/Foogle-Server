@@ -12,9 +12,6 @@ require("./db/database")();
 app.use(cors({origin: 'https://foogle.foo'}))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.send('Hello Random Person!')
-})
 app.use('/listings', listings);
 app.use('/signup', signup);
 app.use('/login', login);

@@ -41,7 +41,7 @@ const loginWithToken = async (req, res) => {
     const decoded = jwt_decode(token);
     
     try{
-        const user = await User.findOne({email: decoded.email})
+        let user = await User.findOne({email: decoded.email})
         if(user){
             const token = jwt.sign(
                 {id: user._id, email: user.email},
@@ -50,12 +50,13 @@ const loginWithToken = async (req, res) => {
             )
             res.status(200).json({token})
         }else{
-            const hashedPassword = bcrypt.hash('placeholdePassword', 10)
+            const hashedPassword = await bcrypt.hash('placeholdePassword', 10)
             user = new User({
                 email: decoded.email,
                 password: hashedPassword,
                 verified: true
             })
+
             const savedUser = await user.save()
             const token = jwt.sign(
                 {id: savedUser._id, email: savedUser.email},
@@ -65,7 +66,7 @@ const loginWithToken = async (req, res) => {
             res.status(200).json({token})
         }
     }catch(err){
-        res.status(500).send('Error logging in user', err);
+        res.status(500).json({"message":'Error logging in user', "error": err});
     }
 }
 
