@@ -20,9 +20,9 @@ const getCraigslist = (async (req, res) => {
     };
 
     for (let i = 0; i < 40; i++) {
-        await scrollDown();
-        await page.waitForTimeout(50);
-    }
+      await scrollDown();
+      await new Promise(resolve => setTimeout(resolve, 50));
+  }
 
     const items = await page.evaluate(() => {
         const results = [];
