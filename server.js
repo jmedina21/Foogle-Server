@@ -12,9 +12,10 @@ require("./db/database")();
 app.use(cors({ origin: "https://foogle.foo" }));
 app.use(express.json());
 
-app.use("health", (req, res) => {
-    res.sendStatus(200);
+app.get("/health", (req, res) => {
+    res.send("OK");
 });
+
 app.use("/listings", listings);
 app.use("/signup", signup);
 app.use("/login", login);
