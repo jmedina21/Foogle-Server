@@ -1,25 +1,29 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^1.4.0",
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.1",
-    "jwt-decode": "^3.1.2",
-    "mongoose": "^7.6.3",
-    "node-mailer": "^0.1.1",
-    "puppeteer": "^22.12.0"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.4.0",
+        "bcrypt": "^5.1.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "id": "^0.0.0",
+        "jsonwebtoken": "^9.0.1",
+        "jwt-decode": "^3.1.2",
+        "mongoose": "^7.6.3",
+        "node-mailer": "^0.1.1",
+        "puppeteer": "^22.12.0"
+    },
+    "devDependencies": {
+        "ip": "^2.0.1"
+    }
 }
